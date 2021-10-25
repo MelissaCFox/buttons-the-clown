@@ -1,0 +1,43 @@
+
+.field {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 20px 5%;
+    color: #404040;
+	font-family: "Comfortaa", Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.button {
+    margin: 1rem 0 2rem 2rem;
+    padding: 0.5rem;
+    background-color: rgb(81, 5, 131);
+    color: rgb(100, 204, 235);
+    font-size: 1rem;
+    border-radius: 35%;
+}
+
+.request-item {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 5px;
+}
+.request-item:nth-child(even) {background: #CCC}
+.request-item:nth-child(odd) {background: #FFF}
+
+.request-info {
+    flex: 9;
+
+}
+
+.request__deny {
+    flex: 1;
+    margin: 5px;
+}
+
+.clowns {
+    flex: 1;
+    margin: 5px;
+}
