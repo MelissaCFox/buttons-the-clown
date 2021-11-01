@@ -20,8 +20,7 @@ mainContainer.addEventListener("click", clickEvent => {
             numberOfChildren: userNumberOfChildren,
             address: userAddress,
             date: userDate,
-            timelength: userTimeLength,
-            completed: false
+            timelength: userTimeLength
         }
 
         // Send the data to the API for permanent storage

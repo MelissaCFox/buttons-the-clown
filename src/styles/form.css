@@ -41,3 +41,15 @@
     flex: 1;
     margin: 5px;
 }
+
+.completed-request-info {
+    flex: 10;
+    margin: 5px;
+}
+
+.completed-request-item {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 5px;
+    background-color:rgb(170, 197, 206)
+}

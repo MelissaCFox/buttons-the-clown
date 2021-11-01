@@ -38,20 +38,48 @@ export const getRequests = () => {
     return applicationState.requests.map(request => ({...request}))
 }
 
+export const getSortedRequests = () => {
+    return applicationState.requests.sort(
+        (a, b) => {
 
-// export const fetchClowns = () => {
-//     fetch(`${API}/clowns`)
-//     .then(response => response.json())
-//     .then(
-//         (clowns) => {
-//             applicationState.clowns = clowns
-//         }
-//     )
-// }
+            const completions = getCompletions()
+        
+            const aFoundCompletion = completions.find(
+                (completion) => {
+                    return (completion.requestId === a.id)
+                }
+            )
+            let aValue = false
+            if (aFoundCompletion) {
+                aValue = true
+            } 
+
+            const bFoundCompletion = completions.find(
+                (completion) => {
+                    return (completion.requestId === b.id)
+                }
+            )
+            let bValue = false
+            if (bFoundCompletion) {
+                bValue = true
+            } 
+
+            return aValue - bValue
+        
+        }      
+    )
+}
+
+
 
 export const getClowns = () => {
     return applicationState.clowns.map
     (clown => ({...clown}))
+}
+
+export const getCompletions = () => {
+    return applicationState.completions.map
+    (completion => ({...completion}))
 }
 
 
@@ -100,13 +128,3 @@ export const completeEvent = (completedEvent) => {
 }    
 
 
-// export const fetchCompletions = () => {
-//     return fetch(`${API}/completions`)
-//     .then(completion => completion.json())
-//     .then(
-//         (serviceCompletions) => {
-//             // Store the external state in application state
-//             applicationState.completions = serviceCompletions
-//         }
-//     )
-// }

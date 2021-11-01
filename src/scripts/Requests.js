@@ -1,42 +1,71 @@
-import { deleteRequest, getClowns, getRequests, completeEvent } from "./dataAccess.js";
+import { deleteRequest, getClowns, getRequests, completeEvent, getCompletions, getSortedRequests } from "./dataAccess.js";
 
 
 
 const requestItemListBuilder = (request) => {
     const clowns = getClowns()
 
-            return`
-            <li class="request-item">
-            <section class="request-info">
-            Request #${request.id}: ${request.childName}
-            </section>
-        
-        
-            <select class="clowns" id="clowns">
+    const completions = getCompletions()
+
+    const foundCompletion = completions.find(
+        (completion) => {
+            return (completion.requestId === request.id)
+        }
+    )
+    
+    let html = ""
+    if (foundCompletion) {
+        const foundCompletedClown = clowns.find(
+            (clown) => {
+                return (clown.id === foundCompletion.clownId)
+            }
+        )
+        html += `<li class="completed-request-item">
+                <section class="completed-request-info">
+                Request #${request.id}: completed by ${foundCompletedClown.name}
+                </section>
+
+                <button class="request__deny" id="request--${request.id}">
+                Deny
+                </button>
+                </li>`
+    } else {
+        html += `<li class="request-item">
+                <section class="request-info">
+                Request #${request.id}: ${request.childName}
+                </section>
+    
+                <select class="clowns" id="clowns">
                 <option value="">Choose</option>
-                ${
-                    clowns.map(
-                        clown => {
-                            return `<option value="${request.id}--${clown.id}">${clown.name}</option>`
-                        }
+                ${clowns.map(
+                    clown => {
+                        return `<option value="${request.id}--${clown.id}">${clown.name}</option>`
+                    }
                     ).join("")
                 }
-            </select>
-        
-        
-            <button class="request__deny" id="request--${request.id}">
-            Deny
-            </button>
-            </li>
-              `
+                </select>
+    
+                <button class="request__deny" id="request--${request.id}">
+                Deny
+                </button>
+                </li>`
+
+    }
+    return html
 
 }
 
 export const Requests = () => {
-    const requests = getRequests()
+    const sortedRequests = getSortedRequests()
+    // const requests = getRequests()
+    
     let html = `<ul>`
-    const listItems = requests.map(requestItemListBuilder)
-    html += listItems.join("")
+    
+    const sortedListItems = sortedRequests.map(requestItemListBuilder)
+    // const listItems = requests.map(requestItemListBuilder)
+    
+    html += sortedListItems.join("")
+    // html += listItems.join("")
     html += `</ul>`
 
     return html
@@ -46,7 +75,7 @@ export const Requests = () => {
 const mainContainer = document.querySelector("#container")
 //Submit Request
 mainContainer.addEventListener("click", click => {
-    if(click.target.id.startsWith("request")) {
+    if (click.target.id.startsWith("request")) {
         const [, requestId] = click.target.id.split("--")
         deleteRequest(parseInt(requestId))
     }
