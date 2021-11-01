@@ -57,15 +57,12 @@ const requestItemListBuilder = (request) => {
 
 export const Requests = () => {
     const sortedRequests = getSortedRequests()
-    // const requests = getRequests()
+    const sortedListItems = sortedRequests.map(requestItemListBuilder)
     
     let html = `<ul>`
-    
-    const sortedListItems = sortedRequests.map(requestItemListBuilder)
-    // const listItems = requests.map(requestItemListBuilder)
-    
+           
     html += sortedListItems.join("")
-    // html += listItems.join("")
+
     html += `</ul>`
 
     return html
