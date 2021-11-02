@@ -70,6 +70,13 @@ export const getSortedRequests = () => {
     )
 }
 
+export const getDateSortedRequests = () => {
+    return applicationState.requests.sort(
+        (a,b) => {
+            return a.dateToSort - b.dateToSort
+        }
+    )
+}
 
 
 export const getClowns = () => {

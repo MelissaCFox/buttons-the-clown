@@ -20,6 +20,7 @@ mainContainer.addEventListener("click", clickEvent => {
             numberOfChildren: userNumberOfChildren,
             address: userAddress,
             date: userDate,
+            dateToSort: Date.parse(userDate),
             timelength: userTimeLength
         }
 

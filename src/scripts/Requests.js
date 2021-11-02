@@ -1,4 +1,4 @@
-import { deleteRequest, getClowns, getRequests, completeEvent, getCompletions, getSortedRequests } from "./dataAccess.js";
+import { deleteRequest, getClowns, getRequests, completeEvent, getCompletions, getSortedRequests, getDateSortedRequests } from "./dataAccess.js";
 
 
 
@@ -32,7 +32,7 @@ const requestItemListBuilder = (request) => {
     } else {
         html += `<li class="request-item">
                 <section class="request-info">
-                Request #${request.id}: ${request.childName}
+                Request #${request.id}: ${request.childName} on ${request.date}
                 </section>
     
                 <select class="clowns" id="clowns">
@@ -56,15 +56,41 @@ const requestItemListBuilder = (request) => {
 }
 
 export const Requests = () => {
-    const sortedRequests = getSortedRequests()
-    const sortedListItems = sortedRequests.map(requestItemListBuilder)
-    
-    let html = `<ul>`
-           
-    html += sortedListItems.join("")
+    const completions = getCompletions()
+    const dateSortedRequests = getDateSortedRequests()
+    const completedDateSortedRequests = dateSortedRequests.filter(
+        (request) => {
+            let foundCompletion = completions.find(
+                (completion) => {
+                    return (completion.requestId === request.id)
+                }
+            )
+            if (foundCompletion) {
+                return request
+            }
+        }
 
-    html += `</ul>`
+    )
+    const incompleteDateSortedRequests = dateSortedRequests.filter(
+        (request) => {
+            let foundCompletion = completions.find(
+                (completion) => {
+                    return (completion.requestId === request.id)
+                }
+            )
+            if (!foundCompletion) {
+                return request
+            }
+        }
 
+    )
+    const completedDateSortedListItems = completedDateSortedRequests.map(requestItemListBuilder)
+    const incompleteDateSortedListItems = incompleteDateSortedRequests.map(requestItemListBuilder)
+
+    let html = "<ul>"
+    html += incompleteDateSortedListItems.join("")
+    html += completedDateSortedListItems.join("")
+    html += "</ul>"
     return html
 
 }
